@@ -1,0 +1,45 @@
+version: '3.8'
+services:
+  multinentant-backend:
+    container_name: multinentant-backend
+    image: node:lts
+    working_dir: /usr/src/app
+    volumes:
+      - ./:/usr/src/app
+    command: bash -c "npm install && npm start"
+    ports:
+      - '3333:3333'
+    depends_on:
+      - master-db
+    env_file:
+      - .env
+  master-db:
+    container_name: master-db
+    image: postgres
+    environment:
+      POSTGRES_PASSWORD: master-db
+      POSTGRES_USER: master-db
+      POSTGRES_DB: master-db
+    ports:
+      - '5432:5432'
+    restart: unless-stopped
+  tenant1:
+    container_name: tenant1
+    image: postgres
+    environment:
+      POSTGRES_PASSWORD: tenant1
+      POSTGRES_USER: tenant1
+      POSTGRES_DB: tenant1
+    ports:
+      - '5433:5432'
+    restart: unless-stopped
+  tenant2:
+    container_name: tenant2
+    image: postgres
+    environment:
+      POSTGRES_PASSWORD: tenant2
+      POSTGRES_USER: tenant2
+      POSTGRES_DB: tenant2
+    ports:
+      - '5434:5432'
+    restart: unless-stopped

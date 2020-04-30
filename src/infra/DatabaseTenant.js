@@ -1,14 +1,18 @@
 import Sequelize from 'sequelize';
-import cls from 'continuation-local-storage';
 
 import databaseTenant from '../config/databaseTenant';
 import User from '../models/models-db/User';
+import City from '../models/models-db/City';
 
-const models = [User];
+const models = [User, City];
 
 class DatabaseTenant {
-  createConnectionByTenant(tenant) {
-    const connection = new Sequelize(databaseTenant(tenant));
+  constructor(tenant) {
+    this.init(tenant);
+  }
+
+  init(tenant) {
+    this.connection = new Sequelize(databaseTenant(tenant));
 
     models
       .map(model => {
@@ -19,12 +23,12 @@ class DatabaseTenant {
           .map(x => x.toLowerCase())
           .join('_');
 
-        return model.init(connection, { tableName });
+        return model.init(this.connection, { tableName });
       })
-      .map(model => model.associate && model.associate(connection.models));
+      .map(model => model.associate && model.associate(this.connection.models));
 
-    return connection;
+    this.connection.sync();
   }
 }
 
-export default new DatabaseTenant();
+export default DatabaseTenant;

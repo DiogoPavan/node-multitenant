@@ -1,27 +1,19 @@
 import { Model, DataTypes } from 'sequelize';
 
-class User extends Model {
+class City extends Model {
   static init(sequelize, configs) {
     super.init(
       {
-        userId: {
+        cityId: {
           type: DataTypes.INTEGER,
           allowNull: false,
           autoIncrement: true,
           primaryKey: true,
           field: 'user_id',
         },
-        firstName: {
+        cityName: {
           type: DataTypes.STRING,
           field: 'first_name',
-        },
-        lastName: {
-          type: DataTypes.STRING,
-          field: 'last_name',
-        },
-        email: {
-          type: DataTypes.STRING,
-          allowNull: false,
         },
       },
       {
@@ -34,4 +26,4 @@ class User extends Model {
   }
 }
 
-export default User;
+export default City;

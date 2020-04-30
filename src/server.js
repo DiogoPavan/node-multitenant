@@ -9,10 +9,6 @@ const app = express();
 
 app.use(express.json());
 
-app.get('/', (req, res) => {
-  res.json({ body: 'Hello multi-tenant application.' });
-});
-
 connectAllDb();
 
 app.use(routes);

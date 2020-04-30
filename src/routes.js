@@ -9,6 +9,10 @@ import MigrateService from './services/MigrateService';
 
 const routes = Router();
 
+routes.get('/', (req, res) => {
+  res.json({ body: 'Hello multi-tenant application.' });
+});
+
 routes.post('/migrate', MigrateService.run);
 routes.post('/tenant', TenantController.insert);
 routes.get('/tenant/findall', TenantController.findAll);

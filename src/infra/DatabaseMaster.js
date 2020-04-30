@@ -29,6 +29,8 @@ class DatabaseMaster {
         model =>
           model.associate && model.associate(this.connection.modelsMaster)
       );
+
+    this.connection.sync();
   }
 }
 

@@ -13,6 +13,9 @@ services:
       - master-db
     env_file:
       - .env
+    networks:
+      testing_net:
+        ipv4_address: 172.28.1.0
   master-db:
     container_name: master-db
     image: postgres
@@ -22,6 +25,9 @@ services:
       POSTGRES_DB: master-db
     ports:
       - '5432:5432'
+    networks:
+      testing_net:
+        ipv4_address: 172.28.1.1
     restart: unless-stopped
   tenant1:
     container_name: tenant1
@@ -32,6 +38,9 @@ services:
       POSTGRES_DB: tenant1
     ports:
       - '5433:5432'
+    networks:
+      testing_net:
+        ipv4_address: 172.28.1.2
     restart: unless-stopped
   tenant2:
     container_name: tenant2
@@ -42,4 +51,14 @@ services:
       POSTGRES_DB: tenant2
     ports:
       - '5434:5432'
+    networks:
+      testing_net:
+        ipv4_address: 172.28.1.3
     restart: unless-stopped
+
+networks:
+  testing_net:
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.28.0.0/16
